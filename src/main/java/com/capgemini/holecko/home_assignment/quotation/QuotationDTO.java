@@ -1,6 +1,7 @@
-package com.capgemini.holecko.homeAssignment.quotation;
+package com.capgemini.holecko.home_assignment.quotation;
 
-import com.capgemini.holecko.homeAssignment.customer.CustomerDTO;
+import com.capgemini.holecko.home_assignment.customer.CustomerDTO;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -35,7 +36,7 @@ public class QuotationDTO {
     @Column(name = "date_of_signing_mortgage")
     private LocalDate dateOfSigningMortgage;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "customer_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private CustomerDTO customer;

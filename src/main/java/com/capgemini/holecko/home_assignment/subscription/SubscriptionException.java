@@ -1,4 +1,4 @@
-package com.capgemini.holecko.homeAssignment.subscription;
+package com.capgemini.holecko.home_assignment.subscription;
 
 public class SubscriptionException extends RuntimeException {
 

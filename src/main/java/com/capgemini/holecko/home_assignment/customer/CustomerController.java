@@ -1,4 +1,4 @@
-package com.capgemini.holecko.homeAssignment.customer;
+package com.capgemini.holecko.home_assignment.customer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

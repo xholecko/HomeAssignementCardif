@@ -1,4 +1,4 @@
-package com.capgemini.holecko.homeAssignment.quotation;
+package com.capgemini.holecko.home_assignment.quotation;
 
 public class QuotationException extends RuntimeException {
 

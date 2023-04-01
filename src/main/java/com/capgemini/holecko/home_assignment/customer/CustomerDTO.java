@@ -1,4 +1,4 @@
-package com.capgemini.holecko.homeAssignment.customer;
+package com.capgemini.holecko.home_assignment.customer;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

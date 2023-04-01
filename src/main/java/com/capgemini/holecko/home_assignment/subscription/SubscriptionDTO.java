@@ -1,6 +1,7 @@
-package com.capgemini.holecko.homeAssignment.subscription;
+package com.capgemini.holecko.home_assignment.subscription;
 
-import com.capgemini.holecko.homeAssignment.quotation.QuotationDTO;
+import com.capgemini.holecko.home_assignment.quotation.QuotationDTO;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -26,7 +27,7 @@ public class SubscriptionDTO {
     @Column(name = "id")
     private int id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "quotation_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private QuotationDTO quotation;

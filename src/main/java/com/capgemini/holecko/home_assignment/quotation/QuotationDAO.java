@@ -1,4 +1,4 @@
-package com.capgemini.holecko.homeAssignment.quotation;
+package com.capgemini.holecko.home_assignment.quotation;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

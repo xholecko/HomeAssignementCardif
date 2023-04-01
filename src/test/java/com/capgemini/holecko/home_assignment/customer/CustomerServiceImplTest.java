@@ -1,4 +1,4 @@
-package com.capgemini.holecko.homeAssignment.customer;
+package com.capgemini.holecko.home_assignment.customer;
 
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
@@ -14,19 +14,14 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @SpringBootTest
 @AutoConfigureTestDatabase
 @Transactional
-public class CustomerServiceImplTest {
+class CustomerServiceImplTest {
 
     @Autowired
     private CustomerService customerService;
 
     @Test
-    public void contextLoads() {
+    void contextLoads() {
         assertNotNull(customerService);
-    }
-
-    @Test
-    public void updateTestNonExistent() {
-
     }
 
 

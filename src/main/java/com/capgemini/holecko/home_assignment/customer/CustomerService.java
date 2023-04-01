@@ -1,4 +1,4 @@
-package com.capgemini.holecko.homeAssignment.customer;
+package com.capgemini.holecko.home_assignment.customer;
 
 public interface CustomerService {
 

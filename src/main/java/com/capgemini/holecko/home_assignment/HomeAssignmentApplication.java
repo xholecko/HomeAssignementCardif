@@ -1,4 +1,4 @@
-package com.capgemini.holecko.homeAssignment;
+package com.capgemini.holecko.home_assignment;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
