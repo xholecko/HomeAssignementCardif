@@ -1,6 +1,1 @@
-logging ok
 tests
-
-add init data to db on start?
-
-todo non null values

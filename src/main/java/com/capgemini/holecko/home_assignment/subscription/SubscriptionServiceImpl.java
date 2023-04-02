@@ -19,22 +19,36 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     @Override
     public Subscription create(Subscription subscription) {
-        Optional<Subscription> subscriptionFromDB = subscriptionDAO.findById(subscription.getId());
-        if (subscriptionFromDB.isEmpty()) {
-            // todo what if existing customer or quotation will be provided?
-            if (subscription.getQuotation() == null) {
-                log.warn("Quotation does not exist, new empty quotation will be created");
-                subscription.setQuotation(new Quotation());
-            }
-            if (subscription.getQuotation().getCustomer() == null) {
-                log.warn("Customer does not exist, new empty customer will be created");
-                subscription.getQuotation().setCustomer(new Customer());
-            }
-            return subscriptionDAO.save(subscription);
+        Optional<Subscription> subscriptionFromDB = Optional.empty();
+        if (subscription.getId() != null) {
+            subscriptionFromDB = subscriptionDAO.findById(subscription.getId());
         }
-        String errorMessage = "Can not create new subscription. Subscription with given ID already exists : " + subscriptionFromDB.get();
-        log.error(errorMessage);
-        throw new SubscriptionException(errorMessage);
+
+        if (subscriptionFromDB.isPresent()) {
+            String errorMessage = "Can not create new subscription. Subscription with given ID already exists : " + subscriptionFromDB.get();
+            log.error(errorMessage);
+            throw new SubscriptionException(errorMessage);
+        }
+
+        if (subscription.getQuotation() != null && subscription.getQuotation().getId() != null) {
+            log.warn("Quotation ID is provided, newly created quotation will be created instead.");
+            subscription.getQuotation().setId(null);
+        } else if (subscription.getQuotation() == null) {
+            log.warn("Quotation does not exist, new empty quotation will be created");
+            subscription.setQuotation(new Quotation());
+        }
+        if (subscription.getQuotation().getCustomer() != null && subscription.getQuotation().getCustomer().getId() != null) {
+            log.warn("Customer ID is provided, newly created customer will be created instead.");
+            subscription.getQuotation().getCustomer().setId(null);
+        } else if (subscription.getQuotation().getCustomer() == null) {
+            log.warn("Customer does not exist, new empty customer will be created");
+            subscription.getQuotation().setCustomer(new Customer());
+        }
+
+        Subscription result = subscriptionDAO.save(subscription);
+        log.info("Creation of new subscription is successful. {}", result);
+        return result;
+
     }
 
     @Override
@@ -45,6 +59,9 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             log.error(errorMessage);
             throw new SubscriptionException(errorMessage);
         }
-        return subscriptionFromDB.get();
+
+        Subscription result = subscriptionFromDB.get();
+        log.info("Retrieving subscription from db is successful. {}", result);
+        return result;
     }
 }

@@ -25,10 +25,10 @@ public class Quotation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Integer id;
 
     @Column(name = "beginning_of_insurance")
-    private String beginningOfInsurance;
+    private LocalDate beginningOfInsurance;
 
     @Column(name = "insured_amount")
     private Integer insuredAmount;

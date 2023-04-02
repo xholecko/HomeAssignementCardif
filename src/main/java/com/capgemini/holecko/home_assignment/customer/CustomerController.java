@@ -19,6 +19,7 @@ public class CustomerController {
 
     @PutMapping("/update")
     public Customer update(@RequestBody Customer updatedCustomer) {
+        log.info("Calling /api/customer/update");
         return customerService.update(updatedCustomer);
     }
 }
