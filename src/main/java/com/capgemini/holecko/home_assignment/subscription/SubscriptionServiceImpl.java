@@ -35,14 +35,14 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             log.warn("Quotation ID is provided, newly created quotation will be created instead.");
             subscription.getQuotation().setId(null);
         } else if (subscription.getQuotation() == null) {
-            log.warn("Quotation does not exist, new empty quotation will be created");
+            log.warn("Quotation does not exist, new empty quotation will be created.");
             subscription.setQuotation(new Quotation());
         }
         if (subscription.getQuotation().getCustomer() != null && subscription.getQuotation().getCustomer().getId() != null) {
             log.warn("Customer ID is provided, newly created customer will be created instead.");
             subscription.getQuotation().getCustomer().setId(null);
         } else if (subscription.getQuotation().getCustomer() == null) {
-            log.warn("Customer does not exist, new empty customer will be created");
+            log.warn("Customer does not exist, new empty customer will be created.");
             subscription.getQuotation().setCustomer(new Customer());
         }
 
@@ -55,7 +55,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     public Subscription findById(Integer subscriptionId) {
         Optional<Subscription> subscriptionFromDB = subscriptionDAO.findById(subscriptionId);
         if (subscriptionFromDB.isEmpty()) {
-            String errorMessage = "Can not retrieve subscription. Subscription with given ID does not exists";
+            String errorMessage = "Can not retrieve subscription. Subscription with given ID does not exists.";
             log.error(errorMessage);
             throw new SubscriptionException(errorMessage);
         }

@@ -68,6 +68,10 @@ class CustomerServiceImplTest {
                 LocalDate.of(1990, 1, 2)
         );
 
+        Assertions.assertThrows(CustomerException.class, () -> {
+            customerService.update(customer);
+        });
+
         Customer customerFromDb = customerService.create(customer);
 
         assertEquals(1, customerService.findAll().size());

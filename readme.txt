@@ -50,7 +50,7 @@ example json body:
 
 -----------------------------------------------------------------------------------
 
-Endpoint for updating of customer
+Endpoint for updating customer
 /api/customer/update
 HTTP METHOD TYPE PUT
 

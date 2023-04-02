@@ -34,7 +34,7 @@ public class QuotationServiceImpl implements QuotationService {
             log.warn("Customer ID is provided, newly created customer will be created instead.");
             quotation.getCustomer().setId(null);
         } else if (quotation.getCustomer() == null) {
-            log.warn("Customer does not exist, new empty customer will be created");
+            log.warn("Customer does not exist, new empty customer will be created.");
             quotation.setCustomer(new Customer());
         }
 

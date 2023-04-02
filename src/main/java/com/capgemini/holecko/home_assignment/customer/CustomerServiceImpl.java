@@ -18,8 +18,13 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer update(Customer updatedCustomer) {
+        if (updatedCustomer.getId() == null) {
+            String errorMessage = "Can not update customer. Customer Id was not provided.";
+            log.error(errorMessage);
+            throw new CustomerException(errorMessage);
+        }
         if (customerDAO.findById(updatedCustomer.getId()).isEmpty()) {
-            String errorMessage = "Can not update customer. Customer does not exists, can not be updated";
+            String errorMessage = "Can not update customer. Customer does not exists, can not be updated.";
             log.error(errorMessage);
             throw new CustomerException(errorMessage);
         }
