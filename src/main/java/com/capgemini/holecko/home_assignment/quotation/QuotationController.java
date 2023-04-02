@@ -17,7 +17,7 @@ public class QuotationController {
     private QuotationService quotationService;
 
     @GetMapping("/insert")
-    public QuotationDTO insert(QuotationDTO quotation) {
+    public Quotation insert(Quotation quotation) {
         log.info("Calling /api/quotation/insert");
         return quotationService.create(quotation);
     }

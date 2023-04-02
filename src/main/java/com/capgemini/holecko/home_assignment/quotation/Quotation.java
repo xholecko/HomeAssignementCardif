@@ -1,6 +1,6 @@
-package com.capgemini.holecko.home_assignment.subscription;
+package com.capgemini.holecko.home_assignment.quotation;
 
-import com.capgemini.holecko.home_assignment.quotation.QuotationDTO;
+import com.capgemini.holecko.home_assignment.customer.Customer;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,23 +18,26 @@ import org.hibernate.annotations.OnDeleteAction;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "subscription")
+@Table(name = "quotation")
 @Data
-public class SubscriptionDTO {
+public class Quotation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
+    @Column(name = "beginning_of_insurance")
+    private String beginningOfInsurance;
+
+    @Column(name = "insured_amount")
+    private Integer insuredAmount;
+
+    @Column(name = "date_of_signing_mortgage")
+    private LocalDate dateOfSigningMortgage;
+
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "quotation_id", nullable = false)
+    @JoinColumn(name = "customer_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private QuotationDTO quotation;
-
-    @Column(name = "start_date")
-    private LocalDate startDate;
-
-    @Column(name = "valid_until")
-    private LocalDate validUntil;
+    private Customer customer;
 }

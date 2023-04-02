@@ -18,13 +18,13 @@ public class SubscriptionController {
     private SubscriptionService subscriptionService;
 
     @GetMapping("/insert")
-    public SubscriptionDTO insert(SubscriptionDTO subscription) {
+    public Subscription insert(Subscription subscription) {
         log.info("Calling /api/subscription/insert");
         return subscriptionService.create(subscription);
     }
 
     @GetMapping("/retrieve/{subscriptionId}")
-    public SubscriptionDTO retrieve(@PathVariable Integer subscriptionId) {
+    public Subscription retrieve(@PathVariable Integer subscriptionId) {
         log.info("Calling /api/subscription/retrieve/" + subscriptionId);
         return subscriptionService.retrieve(subscriptionId);
     }

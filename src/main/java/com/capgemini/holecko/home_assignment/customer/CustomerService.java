@@ -1,16 +1,21 @@
 package com.capgemini.holecko.home_assignment.customer;
 
+import java.util.List;
+
 public interface CustomerService {
 
     /**
-     * Updates CustomerDTO object if it exists otherwise exception will be thrown.
+     * Updates Customer object if it exists otherwise exception will be thrown.
      *
      * @param customer customer
      * @return updated customer
      */
 
-    CustomerDTO update(CustomerDTO customer);
+    Customer update(Customer updatedCustomer);
 
+    Customer create(Customer customer);
 
-    CustomerDTO create_TEMP_REMOVE(CustomerDTO customer);
+    List<Customer> findAll();
+
+    Customer findById(Integer customerId);
 }

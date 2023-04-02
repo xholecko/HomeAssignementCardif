@@ -20,7 +20,12 @@ class CustomerServiceImplTest {
     private CustomerService customerService;
 
     @Test
-    void contextLoads() {
+    void contextLoadsTest() {
+        assertNotNull(customerService);
+    }
+
+    @Test
+    void testUpdate() {
         assertNotNull(customerService);
     }
 

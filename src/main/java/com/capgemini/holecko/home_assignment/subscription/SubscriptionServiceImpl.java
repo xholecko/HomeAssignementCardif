@@ -1,7 +1,7 @@
 package com.capgemini.holecko.home_assignment.subscription;
 
-import com.capgemini.holecko.home_assignment.customer.CustomerDTO;
-import com.capgemini.holecko.home_assignment.quotation.QuotationDTO;
+import com.capgemini.holecko.home_assignment.customer.Customer;
+import com.capgemini.holecko.home_assignment.quotation.Quotation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,17 +18,17 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     private SubscriptionDAO subscriptionDAO;
 
     @Override
-    public SubscriptionDTO create(SubscriptionDTO subscription) {
-        Optional<SubscriptionDTO> subscriptionFromDB = subscriptionDAO.findById(subscription.getId());
+    public Subscription create(Subscription subscription) {
+        Optional<Subscription> subscriptionFromDB = subscriptionDAO.findById(subscription.getId());
         if (subscriptionFromDB.isEmpty()) {
             // todo what if existing customer or quotation will be provided?
             if (subscription.getQuotation() == null) {
                 log.warn("Quotation does not exist, new empty quotation will be created");
-                subscription.setQuotation(new QuotationDTO());
+                subscription.setQuotation(new Quotation());
             }
             if (subscription.getQuotation().getCustomer() == null) {
                 log.warn("Customer does not exist, new empty customer will be created");
-                subscription.getQuotation().setCustomer(new CustomerDTO());
+                subscription.getQuotation().setCustomer(new Customer());
             }
             return subscriptionDAO.save(subscription);
         }
@@ -38,8 +38,8 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
-    public SubscriptionDTO retrieve(Integer subscriptionId) {
-        Optional<SubscriptionDTO> subscriptionFromDB = subscriptionDAO.findById(subscriptionId);
+    public Subscription retrieve(Integer subscriptionId) {
+        Optional<Subscription> subscriptionFromDB = subscriptionDAO.findById(subscriptionId);
         if (subscriptionFromDB.isEmpty()) {
             String errorMessage = "Can not retrieve subscription. Subscription with given ID does not exists";
             log.error(errorMessage);

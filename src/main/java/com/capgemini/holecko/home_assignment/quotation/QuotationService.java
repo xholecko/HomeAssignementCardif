@@ -8,5 +8,5 @@ public interface QuotationService {
      * @param quotation quotation
      * @return newly created quotation
      */
-    QuotationDTO create(QuotationDTO quotation);
+    Quotation create(Quotation quotation);
 }

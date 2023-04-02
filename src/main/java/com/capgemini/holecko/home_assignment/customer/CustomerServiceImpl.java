@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -16,23 +17,39 @@ public class CustomerServiceImpl implements CustomerService {
     private CustomerDAO customerDAO;
 
     @Override
-    public CustomerDTO update(CustomerDTO customer) {
-        if (customerDAO.findById(customer.getId()).isEmpty()) {
+    public Customer update(Customer updatedCustomer) {
+        if (customerDAO.findById(updatedCustomer.getId()).isEmpty()) {
             String errorMessage = "Can not update customer. Customer does not exists, can not be updated";
             log.error(errorMessage);
             throw new CustomerException(errorMessage);
         }
-        return customerDAO.save(customer);
+        return customerDAO.save(updatedCustomer);
     }
 
     @Override
-    public CustomerDTO create_TEMP_REMOVE(CustomerDTO customer) {
-        Optional<CustomerDTO> customerFromDB = customerDAO.findById(customer.getId());
+    public Customer create(Customer customer) {
+        Optional<Customer> customerFromDB = customerDAO.findById(customer.getId());
         if (customerFromDB.isEmpty()) {
             return customerDAO.save(customer);
         }
         String errorMessage = "Can not create new customer. Customer with given ID already exists : " + customerFromDB.get();
         log.error(errorMessage);
         throw new CustomerException(errorMessage);
+    }
+
+    @Override
+    public List<Customer> findAll() {
+        return customerDAO.findAll();
+    }
+
+    @Override
+    public Customer findById(Integer customerId) {
+        Optional<Customer> customer = customerDAO.findById(customerId);
+        if (customer.isEmpty()) {
+            String errorMessage = "Can not find new customer. Customer with given ID does not exists.";
+            log.error(errorMessage);
+            throw new CustomerException(errorMessage);
+        }
+        return customer.get();
     }
 }

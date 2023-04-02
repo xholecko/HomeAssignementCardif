@@ -1,6 +1,6 @@
 package com.capgemini.holecko.home_assignment.quotation;
 
-import com.capgemini.holecko.home_assignment.customer.CustomerDTO;
+import com.capgemini.holecko.home_assignment.customer.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +17,13 @@ public class QuotationServiceImpl implements QuotationService {
     private QuotationDAO quotationDAO;
 
     @Override
-    public QuotationDTO create(QuotationDTO quotation) {
-        Optional<QuotationDTO> quotationFromDB = quotationDAO.findById(quotation.getId());
+    public Quotation create(Quotation quotation) {
+        Optional<Quotation> quotationFromDB = quotationDAO.findById(quotation.getId());
         if (quotationFromDB.isEmpty()) {
             // todo what if existing customer will be provided?
             if (quotation.getCustomer() == null) {
                 log.warn("Customer does not exist, new empty customer will be created");
-                quotation.setCustomer(new CustomerDTO());
+                quotation.setCustomer(new Customer());
             }
             return quotationDAO.save(quotation);
         }

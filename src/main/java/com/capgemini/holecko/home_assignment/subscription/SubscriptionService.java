@@ -8,7 +8,7 @@ public interface SubscriptionService {
      * @param subscription subscription
      * @return newly created subscription
      */
-    SubscriptionDTO create(SubscriptionDTO subscription);
+    Subscription create(Subscription subscription);
 
     /**
      * Retrieves subscription from database.
@@ -16,5 +16,5 @@ public interface SubscriptionService {
      * @param subscription subscription
      * @return newly created subscription
      */
-    SubscriptionDTO retrieve(Integer subscriptionId);
+    Subscription retrieve(Integer subscriptionId);
 }
