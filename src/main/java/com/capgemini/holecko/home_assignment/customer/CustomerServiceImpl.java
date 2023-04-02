@@ -23,18 +23,23 @@ public class CustomerServiceImpl implements CustomerService {
             log.error(errorMessage);
             throw new CustomerException(errorMessage);
         }
-        return customerDAO.save(updatedCustomer);
+        Customer result = customerDAO.save(updatedCustomer);
+        log.info("Customer successfully updated. {}", result);
+        return result;
     }
 
     @Override
     public Customer create(Customer customer) {
         Optional<Customer> customerFromDB = customerDAO.findById(customer.getId());
-        if (customerFromDB.isEmpty()) {
-            return customerDAO.save(customer);
+        if (customerFromDB.isPresent()) {
+            String errorMessage = "Can not create new customer. Customer with given ID already exists : " + customerFromDB.get();
+            log.error(errorMessage);
+            throw new CustomerException(errorMessage);
         }
-        String errorMessage = "Can not create new customer. Customer with given ID already exists : " + customerFromDB.get();
-        log.error(errorMessage);
-        throw new CustomerException(errorMessage);
+
+        Customer result = customerDAO.save(customer);
+        log.info("Creation of new customer is successful. {}", result);
+        return result;
     }
 
     @Override
@@ -50,6 +55,7 @@ public class CustomerServiceImpl implements CustomerService {
             log.error(errorMessage);
             throw new CustomerException(errorMessage);
         }
+        log.info("Find customer by id is successful. {}", customer.get());
         return customer.get();
     }
 }

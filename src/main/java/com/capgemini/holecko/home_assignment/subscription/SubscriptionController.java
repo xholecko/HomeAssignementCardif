@@ -28,6 +28,6 @@ public class SubscriptionController {
     @GetMapping("/retrieve/{subscriptionId}")
     public Subscription retrieve(@PathVariable Integer subscriptionId) {
         log.info("Calling /api/subscription/retrieve/{}", subscriptionId);
-        return subscriptionService.retrieve(subscriptionId);
+        return subscriptionService.findById(subscriptionId);
     }
 }

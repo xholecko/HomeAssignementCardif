@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -48,11 +49,10 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         Subscription result = subscriptionDAO.save(subscription);
         log.info("Creation of new subscription is successful. {}", result);
         return result;
-
     }
 
     @Override
-    public Subscription retrieve(Integer subscriptionId) {
+    public Subscription findById(Integer subscriptionId) {
         Optional<Subscription> subscriptionFromDB = subscriptionDAO.findById(subscriptionId);
         if (subscriptionFromDB.isEmpty()) {
             String errorMessage = "Can not retrieve subscription. Subscription with given ID does not exists";
@@ -60,8 +60,12 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             throw new SubscriptionException(errorMessage);
         }
 
-        Subscription result = subscriptionFromDB.get();
-        log.info("Retrieving subscription from db is successful. {}", result);
-        return result;
+        log.info("Retrieving subscription from db is successful. {}", subscriptionFromDB.get());
+        return subscriptionFromDB.get();
+    }
+
+    @Override
+    public List<Subscription> findAll() {
+        return subscriptionDAO.findAll();
     }
 }
