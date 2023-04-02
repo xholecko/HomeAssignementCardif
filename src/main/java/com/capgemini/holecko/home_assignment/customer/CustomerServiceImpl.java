@@ -30,7 +30,11 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer create(Customer customer) {
-        Optional<Customer> customerFromDB = customerDAO.findById(customer.getId());
+        Optional<Customer> customerFromDB = Optional.empty();
+        if (customer.getId() != null) {
+            customerFromDB = customerDAO.findById(customer.getId());
+        }
+
         if (customerFromDB.isPresent()) {
             String errorMessage = "Can not create new customer. Customer with given ID already exists : " + customerFromDB.get();
             log.error(errorMessage);
