@@ -5,21 +5,20 @@ import java.util.List;
 public interface SubscriptionService {
 
     /**
-     * Creates new subscription object if it does not exist, otherwise exception will be thrown.
-     *
-     * @param subscription subscription
+     * @param newSubscription new subscription
      * @return newly created subscription
      */
-    Subscription create(Subscription subscription);
-
-    /**
-     * @param subscriptionId subscription id
-     * @return subscription from database with given ID, if subscription does not exist exception will be thrown
-     */
-    Subscription findById(Integer subscriptionId);
+    Subscription create(SubscriptionDTO newSubscription);
 
     /**
      * @return all subscriptions from DB
      */
     List<Subscription> findAll();
+
+    /**
+     * @param subscriptionId subscription id
+     * @return subscription from database with given ID
+     * @throws com.capgemini.holecko.home_assignment.subscription.Subscription if subscription does not exist
+     */
+    Subscription findById(Integer subscriptionId);
 }

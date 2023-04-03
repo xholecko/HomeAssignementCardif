@@ -18,8 +18,8 @@ public class QuotationController {
     private QuotationService quotationService;
 
     @PostMapping("/insert")
-    public Quotation insert(@RequestBody Quotation quotation) {
-        log.info("Calling /api/quotation/insert");
+    public Quotation insert(@RequestBody QuotationDTO quotation) {
+        log.info("Calling endpoint /api/quotation/insert with {}", quotation);
         return quotationService.create(quotation);
     }
 }

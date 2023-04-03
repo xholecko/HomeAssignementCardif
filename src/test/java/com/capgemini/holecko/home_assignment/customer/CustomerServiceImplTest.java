@@ -20,6 +20,9 @@ class CustomerServiceImplTest {
     @Autowired
     private CustomerService customerService;
 
+    @Autowired
+    CustomerDtoMapper customerDtoMapper;
+
     @Test
     void contextLoadsTest() {
         assertNotNull(customerService);
@@ -27,25 +30,29 @@ class CustomerServiceImplTest {
 
     @Test
     void testUpdate() {
-        Customer customer = new Customer(
-                null,
-                "Mark",
-                "Hall",
-                null,
-                "mark.hall@email.cz",
-                "777888999",
-                LocalDate.of(1990, 1, 2)
-        );
+        CustomerDTO customer = CustomerDTO.builder()
+                .firstName("Mark")
+                .lastName("Hall")
+                .middleName(null)
+                .email("mark.hall@email.cz")
+                .phoneNumber("777888999")
+                .birthDate(LocalDate.of(1990, 1, 2))
+                .build();
 
         Customer customerFromDb = customerService.create(customer);
 
         assertEquals(1, customerService.findAll().size());
 
-        customerFromDb.setMiddleName("Martin");
-        customerFromDb.setEmail("mark.martin.hall@email.cz");
-        customerFromDb.setPhoneNumber(null);
+        CustomerDTO updatedCustomerDTO = CustomerDTO.builder()
+                .firstName(customerFromDb.getFirstName())
+                .lastName(customerFromDb.getLastName())
+                .middleName("Martin")
+                .email("mark.martin.hall@email.cz")
+                .phoneNumber(null)
+                .birthDate(customerFromDb.getBirthDate())
+                .build();
 
-        Customer updatedCustomerFromDb = customerService.update(customerFromDb);
+        Customer updatedCustomerFromDb = customerService.update(updatedCustomerDTO, customerFromDb.getId());
         assertEquals(1, customerService.findAll().size());
         assertEquals(customerFromDb.getId(), updatedCustomerFromDb.getId());
         assertEquals(customerFromDb.getMiddleName(), updatedCustomerFromDb.getMiddleName());
@@ -55,28 +62,26 @@ class CustomerServiceImplTest {
 
     @Test
     void testUpdateException() {
-        Customer customer = new Customer(
-                null,
-                "Mark",
-                "Hall",
-                null,
-                "mark.hall@email.cz",
-                "777888999",
-                LocalDate.of(1990, 1, 2)
-        );
+        CustomerDTO customer = CustomerDTO.builder()
+                .firstName("Mark")
+                .lastName("Hall")
+                .middleName(null)
+                .email("mark.hall@email.cz")
+                .phoneNumber("777888999")
+                .birthDate(LocalDate.of(1990, 1, 2))
+                .build();
 
         Assertions.assertThrows(CustomerException.class, () -> {
-            customerService.update(customer);
+            customerService.update(customer, null);
         });
 
         Customer customerFromDb = customerService.create(customer);
 
         assertEquals(1, customerService.findAll().size());
 
-        customerFromDb.setId(customer.getId() + 1);
 
         Assertions.assertThrows(CustomerException.class, () -> {
-            customerService.update(customerFromDb);
+            customerService.update(customer, customerFromDb.getId() + 1);
         });
     }
 }

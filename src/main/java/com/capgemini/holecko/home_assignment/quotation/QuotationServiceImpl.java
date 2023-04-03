@@ -1,6 +1,6 @@
 package com.capgemini.holecko.home_assignment.quotation;
 
-import com.capgemini.holecko.home_assignment.customer.Customer;
+import com.capgemini.holecko.home_assignment.utils.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,28 +17,12 @@ public class QuotationServiceImpl implements QuotationService {
     @Autowired
     private QuotationDAO quotationDAO;
 
+    @Autowired
+    private QuotationDtoMapper quotationDtoMapper;
+
     @Override
-    public Quotation create(Quotation quotation) {
-        Optional<Quotation> quotationFromDB = Optional.empty();
-        if (quotation.getId() != null) {
-            quotationFromDB = quotationDAO.findById(quotation.getId());
-        }
-
-        if (quotationFromDB.isPresent()) {
-            String errorMessage = "Can not create new quotation. Quotation with given ID already exists : " + quotationFromDB.get();
-            log.error(errorMessage);
-            throw new QuotationException(errorMessage);
-        }
-
-        if (quotation.getCustomer() != null && quotation.getCustomer().getId() != null) {
-            log.warn("Customer ID is provided, newly created customer will be created instead.");
-            quotation.getCustomer().setId(null);
-        } else if (quotation.getCustomer() == null) {
-            log.warn("Customer does not exist, new empty customer will be created.");
-            quotation.setCustomer(new Customer());
-        }
-
-        Quotation result = quotationDAO.save(quotation);
+    public Quotation create(QuotationDTO newQuotation) {
+        Quotation result = quotationDAO.save(quotationDtoMapper.apply(new Pair<>(null, newQuotation)));
         log.info("Creation of new quotation is successful. {}", result);
         return result;
     }

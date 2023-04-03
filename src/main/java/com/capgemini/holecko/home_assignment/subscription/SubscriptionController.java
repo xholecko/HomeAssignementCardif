@@ -20,14 +20,14 @@ public class SubscriptionController {
     private SubscriptionService subscriptionService;
 
     @PostMapping("/insert")
-    public Subscription insert(@RequestBody Subscription subscription) {
-        log.info("Calling /api/subscription/insert");
+    public Subscription insert(@RequestBody SubscriptionDTO subscription) {
+        log.info("Calling endpoint /api/subscription/insert with {}", subscription);
         return subscriptionService.create(subscription);
     }
 
     @GetMapping("/retrieve/{subscriptionId}")
     public Subscription retrieve(@PathVariable Integer subscriptionId) {
-        log.info("Calling /api/subscription/retrieve/{}", subscriptionId);
+        log.info("Calling endpoint /api/subscription/retrieve/{}", subscriptionId);
         return subscriptionService.findById(subscriptionId);
     }
 }

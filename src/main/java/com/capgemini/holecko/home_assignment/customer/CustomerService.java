@@ -5,21 +5,19 @@ import java.util.List;
 public interface CustomerService {
 
     /**
-     * Updates Customer object if it exists otherwise exception will be thrown.
-     *
-     * @param updatedCustomer customer
+     * @param updatedCustomer updated customer
+     * @param customerId      id
      * @return updated customer
+     * @throws com.capgemini.holecko.home_assignment.customer.CustomerException if customer does not exist or id is not provided
      */
 
-    Customer update(Customer updatedCustomer);
+    Customer update(CustomerDTO updatedCustomer, Integer customerId);
 
     /**
-     * Creates new Customer object if it not exists otherwise quotation will be updated.
-     *
-     * @param customer
-     * @return
+     * @param newCustomer new customer
+     * @return newly created customer
      */
-    Customer create(Customer customer);
+    Customer create(CustomerDTO newCustomer);
 
     /**
      * @return all customers from DB
@@ -28,7 +26,8 @@ public interface CustomerService {
 
     /**
      * @param customerId customer id
-     * @return customer from database with given ID, if customer does not exist exception will be thrown
+     * @return customer from database with given ID
+     * @throws com.capgemini.holecko.home_assignment.customer.CustomerException if customer does not exist
      */
     Customer findById(Integer customerId);
 }

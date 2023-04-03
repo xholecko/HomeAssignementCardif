@@ -5,12 +5,10 @@ import java.util.List;
 public interface QuotationService {
 
     /**
-     * Creates new Quotation object if it not exists otherwise exception will be thrown.
-     *
-     * @param quotation quotation
+     * @param newQuotation new quotation
      * @return newly created quotation
      */
-    Quotation create(Quotation quotation);
+    Quotation create(QuotationDTO newQuotation);
 
     /**
      * @return all quotations from DB
@@ -19,7 +17,8 @@ public interface QuotationService {
 
     /**
      * @param quotationId quotation id
-     * @return quotation from database with given ID, if quotation does not exist exception will be thrown
+     * @return quotation from database with given ID
+     * @throws com.capgemini.holecko.home_assignment.quotation.QuotationException if quotation does not exist
      */
     Quotation findById(Integer quotationId);
 }

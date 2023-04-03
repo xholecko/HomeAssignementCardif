@@ -1,5 +1,6 @@
 package com.capgemini.holecko.home_assignment.customer;
 
+import com.capgemini.holecko.home_assignment.utils.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,37 +17,31 @@ public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private CustomerDAO customerDAO;
 
+    @Autowired
+    private CustomerDtoMapper customerDtoMapper;
+
     @Override
-    public Customer update(Customer updatedCustomer) {
-        if (updatedCustomer.getId() == null) {
+    public Customer update(
+            CustomerDTO updatedCustomer,
+            Integer customerId) {
+        if (customerId == null) {
             String errorMessage = "Can not update customer. Customer Id was not provided.";
             log.error(errorMessage);
             throw new CustomerException(errorMessage);
         }
-        if (customerDAO.findById(updatedCustomer.getId()).isEmpty()) {
+        if (customerDAO.findById(customerId).isEmpty()) {
             String errorMessage = "Can not update customer. Customer does not exists, can not be updated.";
             log.error(errorMessage);
             throw new CustomerException(errorMessage);
         }
-        Customer result = customerDAO.save(updatedCustomer);
+        Customer result = customerDAO.save(customerDtoMapper.apply(new Pair<>(customerId, updatedCustomer)));
         log.info("Customer successfully updated. {}", result);
         return result;
     }
 
     @Override
-    public Customer create(Customer customer) {
-        Optional<Customer> customerFromDB = Optional.empty();
-        if (customer.getId() != null) {
-            customerFromDB = customerDAO.findById(customer.getId());
-        }
-
-        if (customerFromDB.isPresent()) {
-            String errorMessage = "Can not create new customer. Customer with given ID already exists : " + customerFromDB.get();
-            log.error(errorMessage);
-            throw new CustomerException(errorMessage);
-        }
-
-        Customer result = customerDAO.save(customer);
+    public Customer create(CustomerDTO newCustomer) {
+        Customer result = customerDAO.save(customerDtoMapper.apply(new Pair<>(null, newCustomer)));
         log.info("Creation of new customer is successful. {}", result);
         return result;
     }

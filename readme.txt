@@ -1,3 +1,7 @@
+Required JDK 17
+
+-----------------------------------------------------------------------------------
+
 Endpoint for creation of subscription
 /api/subscription/insert
 HTTP METHOD TYPE POST
@@ -51,12 +55,11 @@ example json body:
 -----------------------------------------------------------------------------------
 
 Endpoint for updating customer
-/api/customer/update
+/api/customer/update/{id}
 HTTP METHOD TYPE PUT
 
 example json body:
 {
-    "id": 1,
     "firstName": "Hana",
     "lastName": "Mrkvova",
     "middleName": null,
