@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class SubscriptionServiceImpl implements SubscriptionService {
+class SubscriptionServiceImpl implements SubscriptionService {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass().getName());
 

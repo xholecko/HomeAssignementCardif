@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class QuotationServiceImpl implements QuotationService {
+class QuotationServiceImpl implements QuotationService {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass().getName());
 

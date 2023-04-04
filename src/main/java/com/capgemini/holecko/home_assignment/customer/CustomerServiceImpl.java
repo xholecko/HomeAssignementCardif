@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CustomerServiceImpl implements CustomerService {
+class CustomerServiceImpl implements CustomerService {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass().getName());
 
