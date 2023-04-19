@@ -19,7 +19,7 @@ public class CustomerController {
     private CustomerService customerService;
 
     @PutMapping("/update/{customerId}")
-    public Customer update(
+    public CustomerDTOResponse update(
             @RequestBody CustomerDTO updatedCustomer,
             @PathVariable Integer customerId) {
         log.info("Calling endpoint /api/customer/update/{} with {}", customerId, updatedCustomer);

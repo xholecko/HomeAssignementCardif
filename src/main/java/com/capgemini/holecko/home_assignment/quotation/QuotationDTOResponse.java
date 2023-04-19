@@ -1,15 +1,16 @@
 package com.capgemini.holecko.home_assignment.quotation;
 
-import com.capgemini.holecko.home_assignment.customer.CustomerDTO;
+import com.capgemini.holecko.home_assignment.customer.CustomerDTOResponse;
 import lombok.Builder;
 
 import java.time.LocalDate;
 
 @Builder
-public record QuotationDTO(
+public record QuotationDTOResponse(
+        Integer id,
         LocalDate beginningOfInsurance,
         Integer insuredAmount,
         LocalDate dateOfSigningMortgage,
-        CustomerDTO customer
+        CustomerDTOResponse customer
 ) {
 }

@@ -91,9 +91,9 @@ class SubscriptionServiceImplTest {
                 LocalDate.of(2019, 12, 12)
         );
         assertEquals(0, subscriptionService.findAll().size());
-        Subscription subscriptionFromDb = subscriptionService.create(subscription);
+        SubscriptionDTOResponse subscriptionFromDb = subscriptionService.create(subscription);
         assertEquals(1, subscriptionService.findAll().size());
-        Subscription foundSubscriptionById = subscriptionService.findById(subscriptionFromDb.getId());
+        SubscriptionDTOResponse foundSubscriptionById = subscriptionService.findById(subscriptionFromDb.id());
         assertEquals(subscriptionFromDb, foundSubscriptionById);
     }
 }

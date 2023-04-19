@@ -17,23 +17,24 @@ class QuotationServiceImpl implements QuotationService {
     @Autowired
     private QuotationDAO quotationDAO;
 
-    @Autowired
-    private QuotationDtoMapper quotationDtoMapper;
-
     @Override
-    public Quotation create(QuotationDTO newQuotation) {
-        Quotation result = quotationDAO.save(quotationDtoMapper.apply(new Pair<>(null, newQuotation)));
+    public QuotationDTOResponse create(QuotationDTO newQuotation) {
+        Quotation result = quotationDAO.save(QuotationMapper.toEntity().apply(new Pair<>(null, newQuotation)));
         log.info("Creation of new quotation is successful. {}", result);
-        return result;
+        return QuotationMapper.toResponseDTO().apply(result);
     }
 
     @Override
-    public List<Quotation> findAll() {
-        return quotationDAO.findAll();
+    public List<QuotationDTOResponse> findAll() {
+        return quotationDAO
+                .findAll()
+                .stream()
+                .map(quotation -> QuotationMapper.toResponseDTO().apply(quotation))
+                .toList();
     }
 
     @Override
-    public Quotation findById(Integer quotationId) {
+    public QuotationDTOResponse findById(Integer quotationId) {
         Optional<Quotation> quotation = quotationDAO.findById(quotationId);
         if (quotation.isEmpty()) {
             String errorMessage = "Can not find new quotation. Quotation with given ID does not exists.";
@@ -41,6 +42,6 @@ class QuotationServiceImpl implements QuotationService {
             throw new QuotationException(errorMessage);
         }
         log.info("Find quotation by id is successful. {}", quotation.get());
-        return quotation.get();
+        return QuotationMapper.toResponseDTO().apply(quotation.get());
     }
 }

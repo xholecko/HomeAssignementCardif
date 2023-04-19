@@ -17,18 +17,15 @@ class SubscriptionServiceImpl implements SubscriptionService {
     @Autowired
     private SubscriptionDAO subscriptionDAO;
 
-    @Autowired
-    private SubscriptionDtoMapper subscriptionDtoMapper;
-
     @Override
-    public Subscription create(SubscriptionDTO subscription) {
-        Subscription result = subscriptionDAO.save(subscriptionDtoMapper.apply(new Pair<>(null, subscription)));
+    public SubscriptionDTOResponse create(SubscriptionDTO subscription) {
+        Subscription result = subscriptionDAO.save(SubscriptionMapper.toEntity().apply(new Pair<>(null, subscription)));
         log.info("Creation of new subscription is successful. {}", result);
-        return result;
+        return SubscriptionMapper.toResponseDTO().apply(result);
     }
 
     @Override
-    public Subscription findById(Integer subscriptionId) {
+    public SubscriptionDTOResponse findById(Integer subscriptionId) {
         Optional<Subscription> subscriptionFromDB = subscriptionDAO.findById(subscriptionId);
         if (subscriptionFromDB.isEmpty()) {
             String errorMessage = "Can not retrieve subscription. Subscription with given ID does not exists.";
@@ -37,11 +34,15 @@ class SubscriptionServiceImpl implements SubscriptionService {
         }
 
         log.info("Retrieving subscription from db is successful. {}", subscriptionFromDB.get());
-        return subscriptionFromDB.get();
+        return SubscriptionMapper.toResponseDTO().apply(subscriptionFromDB.get());
     }
 
     @Override
-    public List<Subscription> findAll() {
-        return subscriptionDAO.findAll();
+    public List<SubscriptionDTOResponse> findAll() {
+        return subscriptionDAO
+                .findAll()
+                .stream()
+                .map(subscription -> SubscriptionMapper.toResponseDTO().apply(subscription))
+                .toList();
     }
 }

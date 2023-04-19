@@ -17,11 +17,8 @@ class CustomerServiceImpl implements CustomerService {
     @Autowired
     private CustomerDAO customerDAO;
 
-    @Autowired
-    private CustomerDtoMapper customerDtoMapper;
-
     @Override
-    public Customer update(
+    public CustomerDTOResponse update(
             CustomerDTO updatedCustomer,
             Integer customerId) {
         if (customerId == null) {
@@ -34,25 +31,29 @@ class CustomerServiceImpl implements CustomerService {
             log.error(errorMessage);
             throw new CustomerException(errorMessage);
         }
-        Customer result = customerDAO.save(customerDtoMapper.apply(new Pair<>(customerId, updatedCustomer)));
+        Customer result = customerDAO.save(CustomerMapper.toEntity().apply(new Pair<>(customerId, updatedCustomer)));
         log.info("Customer successfully updated. {}", result);
-        return result;
+        return CustomerMapper.toResponseDTO().apply(result);
     }
 
     @Override
-    public Customer create(CustomerDTO newCustomer) {
-        Customer result = customerDAO.save(customerDtoMapper.apply(new Pair<>(null, newCustomer)));
+    public CustomerDTOResponse create(CustomerDTO newCustomer) {
+        Customer result = customerDAO.save(CustomerMapper.toEntity().apply(new Pair<>(null, newCustomer)));
         log.info("Creation of new customer is successful. {}", result);
-        return result;
+        return CustomerMapper.toResponseDTO().apply(result);
     }
 
     @Override
-    public List<Customer> findAll() {
-        return customerDAO.findAll();
+    public List<CustomerDTOResponse> findAll() {
+        return customerDAO
+                .findAll()
+                .stream()
+                .map(customer -> CustomerMapper.toResponseDTO().apply(customer))
+                .toList();
     }
 
     @Override
-    public Customer findById(Integer customerId) {
+    public CustomerDTOResponse findById(Integer customerId) {
         Optional<Customer> customer = customerDAO.findById(customerId);
         if (customer.isEmpty()) {
             String errorMessage = "Can not find new customer. Customer with given ID does not exists.";
@@ -60,6 +61,6 @@ class CustomerServiceImpl implements CustomerService {
             throw new CustomerException(errorMessage);
         }
         log.info("Find customer by id is successful. {}", customer.get());
-        return customer.get();
+        return CustomerMapper.toResponseDTO().apply(customer.get());
     }
 }

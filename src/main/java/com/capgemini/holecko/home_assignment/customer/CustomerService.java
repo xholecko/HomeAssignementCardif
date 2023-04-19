@@ -11,23 +11,23 @@ public interface CustomerService {
      * @throws com.capgemini.holecko.home_assignment.customer.CustomerException if customer does not exist or id is not provided
      */
 
-    Customer update(CustomerDTO updatedCustomer, Integer customerId);
+    CustomerDTOResponse update(CustomerDTO updatedCustomer, Integer customerId);
 
     /**
      * @param newCustomer new customer
      * @return newly created customer
      */
-    Customer create(CustomerDTO newCustomer);
+    CustomerDTOResponse create(CustomerDTO newCustomer);
 
     /**
      * @return all customers from DB
      */
-    List<Customer> findAll();
+    List<CustomerDTOResponse> findAll();
 
     /**
      * @param customerId customer id
      * @return customer from database with given ID
      * @throws com.capgemini.holecko.home_assignment.customer.CustomerException if customer does not exist
      */
-    Customer findById(Integer customerId);
+    CustomerDTOResponse findById(Integer customerId);
 }
